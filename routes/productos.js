@@ -2,10 +2,9 @@ const express = require('express');
 const router = express.Router();
 const Producto = require('../models/Producto');
 const redisClient = require('../config/redis'); 
-const cloudinary = require('../config/cloudinary'); // Importamos Cloudinary en lugar de Firebase
+const cloudinary = require('../config/cloudinary');
 const multer = require('multer');
-const streamifier = require('streamifier'); // Necesario para subir a Cloudinary desde memoria
-
+const streamifier = require('streamifier'); 
 // Configurar multer para almacenar el archivo temporalmente en memoria
 const upload = multer({ storage: multer.memoryStorage() });
 
@@ -14,12 +13,11 @@ router.post('/', upload.single('imagen'), async (req, res) => {
   try {
     let imagenUrl = '';
 
-    // Si el cliente adjuntó un archivo de imagen, lo subimos a Cloudinary
     if (req.file) {
       const subirACloudinary = (fileBuffer) => {
         return new Promise((resolve, reject) => {
           let stream = cloudinary.uploader.upload_stream(
-            { folder: 'tienda-steren' }, // Se creará esta carpeta en tu Cloudinary
+            { folder: 'tienda-steren' },
             (error, result) => {
               if (result) {
                 resolve(result);
@@ -33,20 +31,18 @@ router.post('/', upload.single('imagen'), async (req, res) => {
       };
 
       const resultadoCloudinary = await subirACloudinary(req.file.buffer);
-      imagenUrl = resultadoCloudinary.secure_url; // Obtenemos el link seguro de la imagen
+      imagenUrl = resultadoCloudinary.secure_url;
     }
 
-    // Parsear especificaciones si vienen como texto desde Postman (form-data)
     let especificacionesParsed = req.body.especificaciones;
     if (typeof especificacionesParsed === 'string') {
       try {
         especificacionesParsed = JSON.parse(especificacionesParsed);
       } catch (e) {
-        // Ignorar si no es JSON válido
+
       }
     }
 
-    // Creamos el nuevo producto incluyendo la URL de Cloudinary
     const nuevoProductoData = {
       ...req.body,
       imagenUrl: imagenUrl
@@ -59,7 +55,6 @@ router.post('/', upload.single('imagen'), async (req, res) => {
     const nuevoProducto = new Producto(nuevoProductoData);
     const productoGuardado = await nuevoProducto.save();
     
-    // Invalidar/borrar la caché del catálogo para que se actualice
     await redisClient.del('catalogo_productos');
     console.log('🧹 Caché de Redis invalidada por inserción de nuevo producto');
 

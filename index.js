@@ -1,9 +1,8 @@
-require('dotenv').config(); // Carga las variables del archivo .env
+require('dotenv').config(); 
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
-// Cargar la conexión de Redis desde el archivo de configuración
 require('./config/redis');
 
 const app = express();
@@ -21,7 +20,6 @@ mongoose.connect(uri)
   .then(() => console.log('🟢 Conectado exitosamente a MongoDB'))
   .catch(err => console.error('🔴 Error al conectar a MongoDB:', err));
 
-// Endpoint de prueba
 app.get('/', (req, res) => {
   res.send('API REST de la tienda funcionando correctamente 🚀');
 });

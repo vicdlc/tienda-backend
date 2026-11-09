@@ -6,7 +6,7 @@ const productoSchema = new mongoose.Schema({
   categoria: { type: String, required: true },
   precio: { type: Number, required: true },
   stock: { type: Number, default: 0 },
-  imagenUrl: { type: String }, // Aquí irá el link de Firebase/Cloud Storage después
+  imagenUrl: { type: String },
   
   // ESTA ES LA PARTE POLIMÓRFICA:
   // Permite insertar cualquier par de clave-valor dependiendo del producto.
@@ -14,6 +14,5 @@ const productoSchema = new mongoose.Schema({
     type: Map,
     of: mongoose.Schema.Types.Mixed 
   }
-}, { timestamps: true }); // Agrega fecha de creación y actualización automáticamente
-
+}, { timestamps: true });
 module.exports = mongoose.model('Producto', productoSchema);
