@@ -4,19 +4,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function obtenerCatalogo() {
     try {
-        // Hacemos la petición GET a tu API de Node.js
-        const respuesta = await fetch('http://localhost:3000/api/productos');
+        const respuesta = await fetch('https://tienda-backend-j3p4.onrender.com/api/productos');
         const productos = await respuesta.json();
 
         const contenedorCatalogo = document.getElementById('catalogo');
         contenedorCatalogo.innerHTML = ''; 
 
-        // Recorremos cada producto que llegó de MongoDB/Redis
         productos.forEach(producto => {
             const tarjeta = document.createElement('div');
             tarjeta.className = 'tarjeta-producto';
 
-            // Verificamos si tiene imagen en Cloudinary, si no, ponemos una genérica
             const imagen = producto.imagenUrl ? producto.imagenUrl : 'https://via.placeholder.com/200';
 
             tarjeta.innerHTML = `
