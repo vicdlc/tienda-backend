@@ -61,5 +61,5 @@ El proyecto está dividido en una arquitectura desacoplada (Frontend y Backend i
 
 
 ## 🔗 Enlaces del Proyecto
-* **Sitio Web (Frontend - Netlify):** [https://tu-sitio.netlify.app](https://tu-sitio.netlify.app)
+* **Sitio Web (Frontend - Netlify):** [https://roaring-arithmetic-de3668.netlify.app/](https://roaring-arithmetic-de3668.netlify.app/)
 * **API REST (Backend - Render):** [https://tienda-backend-j3p4.onrender.com/api/productos](https://tienda-backend-j3p4.onrender.com/api/productos)
